@@ -1,0 +1,102 @@
+<div class="contentCreate">
+    <div class="container ajuste">
+        <h1 class="elementsContent">+ Nueva tarea</h1>
+        <form (ngSubmit)="createTask(formu)" #formu="ngForm" class="signup4-form grey-100">
+
+            <div class="form-row align-items-center">
+                <div class="col-md-6">
+                    <label class="textContent">Titulo</label>
+                    <input type="text" class="form-control cajatask" [(ngModel)]="regEntry.title" name="textTitle" [class.is-invalid]="textTitle.invalid && textTitle.touched" required autocomplete="off" #textTitle="ngModel" id="pinput" placeholder="Ingrese título.." />
+                    <small *ngIf="textTitle.invalid && textTitle.touched" class="form-text colorform-text">* El titulo de la tarea es obligatorio.</small>
+                </div>
+
+                <div class="col">
+                    <section>
+                        <label class="tContent">Tarea completada</label>
+                        <input name="status" type="checkbox" [(ngModel)]="regEntry.state" />
+                    </section>
+                </div>
+
+                <div class="col">
+                    <div fxLayout="row wrap" fxLayoutAlign="center" style="margin-top: 20px;">
+                        <button type="button" class="btn btn-light buttonCreate" [disabled]="!formu.valid" type="submit">+ Guardar tarea</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <form>
+        <div class="form row align-items-center">
+            <div class="col-md-7">
+                <div class="content-header" fxLayout="row wrap" fxLayoutAlign="start center">
+                    <mat-icon class="btnList">format_list_bulleted
+                        <label class="tittle">Lista de tareas </label>
+                    </mat-icon>
+                </div>
+            </div>
+
+            <div class="col col-md-4">
+                <input class="form-control mr-sm-2 searchTask" type="search" placeholder="Buscar..." [(ngModel)]="termino" name="first">
+            </div>
+
+            <div class="col">
+                <button class="btn mr-sm-2 btnSearch" (click)="buscarTask(termino)">
+                <mat-icon>search</mat-icon>
+            </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="page-layout overflow-hidden pb-8">
+        <div class="content divConta">
+            <!-- body card toolbar -->
+            <div class="content-card default-bg">
+                <!-- Body card -->
+                <div class="card-body body">
+                    <div class="ml-05 mr-05 mt-05 pb-1">
+                        <div class="mat-elevation-z8">
+                            <mat-table [dataSource]="dataSource" matSort>
+
+                                <ng-container matColumnDef="id_task">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header class="tableHead"> Id </mat-header-cell>
+                                    <mat-cell *matCellDef="let row" data-label="referencia" class="tableBody"> {{row.id}}</mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="title_task">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header class="tableHead"> Mis tareas </mat-header-cell>
+                                    <mat-cell *matCellDef="let row" data-label="precio" class="tableBody" [class.underlineText]="row.state"> {{row.title}}
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="complete">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header class="tableHead"> Completada </mat-header-cell>
+                                    <mat-cell *matCellDef="let row" data-label="completada" class="tableBody">
+                                        <input type="checkbox" [(ngModel)]="row.state" (click)="updateTask(row.id, row.state, row.tittle)">
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="action">
+                                    <mat-header-cell *matHeaderCellDef class="tableHead">Borrar </mat-header-cell>
+                                    <mat-cell *matCellDef="let row">
+                                        <mat-icon-button>
+                                            <mat-icon class="btnDelete" (click)="deleteTask(row.id)">delete_forever</mat-icon>
+                                        </mat-icon-button>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumns;">
+                                </mat-row>
+                            </mat-table>
+                            <mat-paginator [pageSizeOptions]="[5]"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
